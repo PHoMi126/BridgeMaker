@@ -4,30 +4,51 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public enum AnimType
+    {
+        Idle, Run, Falling
+    }
+    
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private FloatingJoystick _joystick;
-    //[SerializeField] private FixedJoystick _joystick;
     [SerializeField] private Animator _animator;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _rotationSpeed;
 
-    private string currentAnimName;
-
-    //private bool isGrounded = true;
-    //private bool isFall = false;
+    private AnimType currentAnimName;
 
     private void FixedUpdate()
     {
-        _rigidbody.velocity = new Vector3(_joystick.Horizontal * _moveSpeed, _rigidbody.velocity.y, _joystick.Vertical * _moveSpeed);
+        if(Input.GetMouseButton(0))
+        {
+            ChangeAnimation(AnimType.Run);
+            _rigidbody.velocity = new Vector3(_joystick.Horizontal * _moveSpeed, _rigidbody.velocity.y, _joystick.Vertical * _moveSpeed);
+        }
+        else if(Input.GetMouseButtonUp(0))
+        {
+            ChangeAnimation(AnimType.Idle);
+            _rigidbody.velocity = Vector3.zero;
+
+        }
     }
 
-    protected void ChangeAnimation(string animName)
+    public void ChangeAnimation(AnimType _type)
     {
-        if(currentAnimName != animName)
+        if(currentAnimName != _type)
         {
-            _animator.ResetTrigger(animName);
-            currentAnimName = animName;
-            _animator.SetTrigger(currentAnimName);
-        }
+            currentAnimName = _type;
+            switch(_type)
+            {
+                case AnimType.Idle:
+                    _animator.SetTrigger("isIdle");
+                    break;
+                case AnimType.Run:
+                    _animator.SetTrigger("isRun");
+                    break;
+                case AnimType.Falling:
+                    _animator.SetTrigger("isFalling");
+                    break;
+            }
+        } 
     }
 }
