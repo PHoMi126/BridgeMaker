@@ -22,12 +22,17 @@ public class BrickController : MonoBehaviour
 
     public IEnumerator ResetBrick(float timeDelay)
     {
-        yield return new WaitForSecond(timeDelay);
+        yield return new WaitForSeconds(timeDelay);
         brickMeshRenderer.gameObject.SetActive(true);
         this.GetComponent<BoxCollider>().enabled = true;
         brickType = (BrickType)Random.Range(0, 3);
         brickMeshRenderer.material = colorScriptable.listMaterial[(int)brickType];
     }
 
-
+    public void BrickEaten()
+    {
+        brickMeshRenderer.gameObject.SetActive (false);
+        this.GetComponent<BoxCollider>().enabled= false;
+        StartCoroutine(ResetBrick(5f));
+    }
 }

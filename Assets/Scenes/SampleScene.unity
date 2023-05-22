@@ -328,8 +328,11 @@ MonoBehaviour:
   _rigidbody: {fileID: 72813255}
   _joystick: {fileID: 2043468134}
   _animator: {fileID: 72813252}
+  brickPrefab: {fileID: 3831968556465070073, guid: db01d52add81c464a94c67671bb6f11c, type: 3}
+  brickTransform: {fileID: 1371303569}
   _moveSpeed: 5
-  _rotationSpeed: 0
+  _rotationSpeed: 2
+  brickType: 0
 --- !u!1001 &275558028
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1465,6 +1468,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8686835403657637506, guid: 71a5d87a193eb264db9c07a51cc7bfa6, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8686835403657637628, guid: 71a5d87a193eb264db9c07a51cc7bfa6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8686835403657637629, guid: 71a5d87a193eb264db9c07a51cc7bfa6, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8686835403848587330, guid: 71a5d87a193eb264db9c07a51cc7bfa6, type: 3}
@@ -1501,6 +1512,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71a5d87a193eb264db9c07a51cc7bfa6, type: 3}
+--- !u!1 &1371303568
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1371303569}
+  m_Layer: 0
+  m_Name: BrickParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1371303569
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371303568}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.98, z: 0.22000027}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 72813253}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &1441679461
 GameObject:
   m_ObjectHideFlags: 0
@@ -1590,6 +1632,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2edbfb5890953c45a065602fe80cd35, type: 3}
+--- !u!1 &1783622785 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8686835403657637506, guid: 71a5d87a193eb264db9c07a51cc7bfa6, type: 3}
+  m_PrefabInstance: {fileID: 1240056964}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1783622791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783622785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef3b72a0e53a8164181dd8be20d2f3c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brickPrefabs: {fileID: 3831968556465070073, guid: db01d52add81c464a94c67671bb6f11c, type: 3}
 --- !u!224 &1786195910 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2929252283123773938, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
