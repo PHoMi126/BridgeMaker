@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     public enum AnimType
     {
-        Idle, Run, Falling
+        Idle, Running, Dance
     }
     
     [SerializeField] private Rigidbody _rigidbody;
@@ -16,7 +17,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform brickTransform;
 
     [SerializeField] private float _moveSpeed;
-    [SerializeField] private float _rotationSpeed;
 
     private AnimType currentAnimName = AnimType.Idle;
     private List<GameObject> listBrickHave = new List<GameObject>();
@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     {
         if(Input.GetMouseButton(0))
         {
-            ChangeAnimation(AnimType.Run);
+            ChangeAnimation(AnimType.Running);
             _rigidbody.velocity = new Vector3(_joystick.Horizontal * _moveSpeed, _rigidbody.velocity.y, _joystick.Vertical * _moveSpeed);
         }
         else if(Input.GetMouseButtonUp(0))
@@ -47,11 +47,11 @@ public class PlayerController : MonoBehaviour
                 case AnimType.Idle:
                     _animator.SetTrigger("isIdle");
                     break;
-                case AnimType.Run:
-                    _animator.SetTrigger("isRun");
+                case AnimType.Running:
+                    _animator.SetTrigger("isRunning");
                     break;
-                case AnimType.Falling:
-                    _animator.SetTrigger("isFalling");
+                case AnimType.Dance:
+                    _animator.SetTrigger("isDance");
                     break;
             }
         } 
@@ -67,8 +67,16 @@ public class PlayerController : MonoBehaviour
             GameObject obj = Instantiate(brickPrefab, brickTransform);
             obj.GetComponent<BrickController>().enabled = false;
 
-            obj.transform.localPosition = new Vector3(0f, listBrickHave.Count * 0.3f, 0f);
+            obj.transform.localPosition = new Vector3(0f, listBrickHave.Count * 0.15f, 0f);
             listBrickHave.Add(obj);
+        }
+        else if(other.gameObject.tag == "BridgeTile")
+        {
+            other.gameObject.GetComponent<MeshRenderer>().enabled = true;
+        }
+        else if (other.gameObject.tag == "DeathZone")
+        {
+            SceneManager.LoadScene("SampleScene");
         }
     }
 }

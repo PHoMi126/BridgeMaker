@@ -9,6 +9,7 @@ TagManager:
   - Brick
   - Enemy
   - Brick Stack Object
+  - DeathZone
   layers:
   - Default
   - TransparentFX

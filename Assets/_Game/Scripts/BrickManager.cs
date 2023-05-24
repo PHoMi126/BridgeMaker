@@ -12,12 +12,6 @@ public class BrickManager : MonoBehaviour
         SpawnAllBricks();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void SpawnAllBricks()
     {
         for(int i = 0; i < 9;  i++) 

@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b240a836fbbe06c489041c976d7ac958, type: 3}
-  m_Name: ColorData
+  m_Name: Data
   m_EditorClassIdentifier: 
   listMaterial:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 7155edc573dac4e488db2abe543394e1, type: 2}
+  - {fileID: 2100000, guid: 6edb1d0ef4e601f458237be0b1207be5, type: 2}
+  - {fileID: 2100000, guid: 12a8eb6b8ba9fdb4d9a87e467a1a2a2e, type: 2}
+  - {fileID: 2100000, guid: 6db85fc1002af7e44bf4ab4b4b085a16, type: 2}
