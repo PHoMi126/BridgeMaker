@@ -8,8 +8,9 @@ TagManager:
   - BridgeTile
   - Brick
   - Enemy
-  - Brick Stack Object
   - DeathZone
+  - AI
+  - BridgeWall
   layers:
   - Default
   - TransparentFX

@@ -1,49 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour
+public class AIController : MonoBehaviour
 {
     public enum AnimType
     {
         Idle, Running, Dance
     }
-    
-    [SerializeField] private Rigidbody _rigidbody;
-    [SerializeField] private FloatingJoystick _joystick;
+
+    [SerializeField] Transform navMesh;
     [SerializeField] private Animator _animator;
     [SerializeField] GameObject brickPrefab;
     [SerializeField] Transform brickTransform;
-
-    [SerializeField] private float _moveSpeed;
 
     private AnimType currentAnimName = AnimType.Idle;
     private List<GameObject> listBrickHave = new List<GameObject>();
     public BrickController.BrickType brickType = BrickController.BrickType.RED;
     GameObject obj;
 
-    private void FixedUpdate()
+    // Start is called before the first frame update
+    void Start()
     {
-        if(Input.GetMouseButton(0))
-        {
-            ChangeAnimation(AnimType.Running);
-            _rigidbody.velocity = new Vector3(_joystick.Horizontal * _moveSpeed, _rigidbody.velocity.y, _joystick.Vertical * _moveSpeed);
-        }
-        else if(Input.GetMouseButtonUp(0))
-        {
-            ChangeAnimation(AnimType.Idle);
-            _rigidbody.velocity = Vector3.zero;
-
-        }
+        this.GetComponent<NavMeshAgent>().SetDestination(navMesh.position);
     }
 
     public void ChangeAnimation(AnimType _type)
     {
-        if(currentAnimName != _type)
+        if (currentAnimName != _type)
         {
             currentAnimName = _type;
-            switch(_type)
+            switch (_type)
             {
                 case AnimType.Idle:
                     _animator.SetTrigger("isIdle");
@@ -55,14 +45,14 @@ public class PlayerController : MonoBehaviour
                     _animator.SetTrigger("isDance");
                     break;
             }
-        } 
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         BrickController brick = other.GetComponent<BrickController>();
 
-        if(brick != null && brick.brickType == this.brickType)
+        if (brick != null && brick.brickType == this.brickType)
         {
             brick.BrickEaten();
             obj = Instantiate(brickPrefab, brickTransform);
@@ -71,21 +61,9 @@ public class PlayerController : MonoBehaviour
             obj.transform.localPosition = new Vector3(0f, listBrickHave.Count * 0.15f, 0f);
             listBrickHave.Add(obj);
         }
-        else if(other.gameObject.tag == "BridgeTile")
+        else if (other.gameObject.tag == "BridgeTile")
         {
             other.gameObject.GetComponent<MeshRenderer>().enabled = true;
-            //Destroy(obj);
-        }
-        else if (other.gameObject.tag == "BridgeWall")
-        {
-            if (obj == null)
-            {
-                other.isTrigger = false;
-            }
-            else
-            {
-                other.isTrigger = true;
-            }
         }
         else if (other.gameObject.tag == "DeathZone")
         {
