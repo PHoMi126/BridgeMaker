@@ -92,4 +92,9 @@ public class PlayerController : MonoBehaviour
             SceneManager.LoadScene("SampleScene");
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        
+    }
 }

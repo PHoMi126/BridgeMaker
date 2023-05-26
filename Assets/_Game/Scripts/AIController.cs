@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class AIController : MonoBehaviour
 {
-    public enum AnimType
+    public enum CurrentState
     {
         Idle, Running, Dance
     }
@@ -16,8 +16,8 @@ public class AIController : MonoBehaviour
     [SerializeField] private Animator _animator;
     [SerializeField] GameObject brickPrefab;
     [SerializeField] Transform brickTransform;
+    [SerializeField] CurrentState _currentState;
 
-    private AnimType currentAnimName = AnimType.Idle;
     private List<GameObject> listBrickHave = new List<GameObject>();
     public BrickController.BrickType brickType = BrickController.BrickType.RED;
     GameObject obj;
@@ -26,26 +26,39 @@ public class AIController : MonoBehaviour
     void Start()
     {
         this.GetComponent<NavMeshAgent>().SetDestination(navMesh.position);
+        StartCoroutine(SwitchAnim());
+    }
+    void Update()
+    {
+        AnimCheck();
     }
 
-    public void ChangeAnimation(AnimType _type)
+    public void AnimCheck()
     {
-        if (currentAnimName != _type)
+        if(_currentState == CurrentState.Idle)
         {
-            currentAnimName = _type;
-            switch (_type)
-            {
-                case AnimType.Idle:
-                    _animator.SetTrigger("isIdle");
-                    break;
-                case AnimType.Running:
-                    _animator.SetTrigger("isRunning");
-                    break;
-                case AnimType.Dance:
-                    _animator.SetTrigger("isDance");
-                    break;
-            }
+            _animator.SetBool("isIdle", true);
+            _animator.SetBool("isRunning", false);
+            _animator.SetBool("isDance", false);
         }
+        else if (_currentState == CurrentState.Running)
+        {
+            _animator.SetBool("isIdle", false);
+            _animator.SetBool("isRunning", true);
+            _animator.SetBool("isDance", false);
+        }
+        else if (_currentState == CurrentState.Dance)
+        {
+            _animator.SetBool("isIdle", false);
+            _animator.SetBool("isRunning", false);
+            _animator.SetBool("isDance", true);
+        }
+    }
+
+    IEnumerator SwitchAnim()
+    {
+        yield return new WaitForSeconds(0.5f);
+        _currentState = CurrentState.Running;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -65,9 +78,9 @@ public class AIController : MonoBehaviour
         {
             other.gameObject.GetComponent<MeshRenderer>().enabled = true;
         }
-        else if (other.gameObject.tag == "DeathZone")
+        else if (other.gameObject.tag == "Target")
         {
-            SceneManager.LoadScene("SampleScene");
+            _currentState = CurrentState.Dance;
         }
     }
 }
