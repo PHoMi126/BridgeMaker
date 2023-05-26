@@ -11,6 +11,7 @@ TagManager:
   - DeathZone
   - AI
   - BridgeWall
+  - Target
   layers:
   - Default
   - TransparentFX

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,8 +14,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private FloatingJoystick _joystick;
     [SerializeField] private Animator _animator;
-    [SerializeField] GameObject brickPrefab;
-    [SerializeField] Transform brickTransform;
+    [SerializeField] private GameObject _brickPrefab;
+    [SerializeField] private Transform _brickTransform;
+    [SerializeField] private Material _material;
 
     [SerializeField] private float _moveSpeed;
 
@@ -65,7 +67,7 @@ public class PlayerController : MonoBehaviour
         if(brick != null && brick.brickType == this.brickType)
         {
             brick.BrickEaten();
-            obj = Instantiate(brickPrefab, brickTransform);
+            obj = Instantiate(_brickPrefab, _brickTransform);
             obj.GetComponent<BrickController>().enabled = false;
 
             obj.transform.localPosition = new Vector3(0f, listBrickHave.Count * 0.15f, 0f);
@@ -73,18 +75,24 @@ public class PlayerController : MonoBehaviour
         }
         else if(other.gameObject.tag == "BridgeTile")
         {
+            //Change Brick Color
+            other.GetComponent<Renderer>().material = _material;
+
             other.gameObject.GetComponent<MeshRenderer>().enabled = true;
-            //Destroy(obj);
+            listBrickHave.Remove(obj);
+            Destroy(obj);
+
+            Debug.Log(listBrickHave.Count);
         }
         else if (other.gameObject.tag == "BridgeWall")
         {
-            if (obj == null)
+            if (listBrickHave == null)
             {
                 other.isTrigger = false;
             }
             else
             {
-                other.isTrigger = true;
+                Destroy(other.gameObject);
             }
         }
         else if (other.gameObject.tag == "DeathZone")
@@ -95,6 +103,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        
+        if (other.gameObject.tag == "BridgeWall")
+        {
+            other.isTrigger = true;
+        }
     }
 }

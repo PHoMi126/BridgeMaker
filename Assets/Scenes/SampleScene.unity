@@ -176,11 +176,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 461136851087979909, guid: 007ae2c07a2b87e43b7b4d446950ded1, type: 3}
       propertyPath: m_UseGravity
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 461136851087979909, guid: 007ae2c07a2b87e43b7b4d446950ded1, type: 3}
+      propertyPath: m_Constraints
+      value: 112
       objectReference: {fileID: 0}
     - target: {fileID: 461136851087979909, guid: 007ae2c07a2b87e43b7b4d446950ded1, type: 3}
       propertyPath: m_IsKinematic
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 767617807736106707, guid: 007ae2c07a2b87e43b7b4d446950ded1, type: 3}
       propertyPath: m_Name
@@ -527,7 +531,7 @@ GameObject:
   - component: {fileID: 361303286}
   m_Layer: 0
   m_Name: AITarget
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -540,7 +544,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 361303285}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -743,10 +747,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3896ab0a765b0504ba01b83097ce8dd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMesh: {fileID: 1957868320}
+  _rigidbody: {fileID: 823774525}
+  _navMesh: {fileID: 361303289}
   _animator: {fileID: 823774520}
-  brickPrefab: {fileID: 3831968556465070073, guid: 12fbd4d905ea139449a3324a3f873699, type: 3}
-  brickTransform: {fileID: 78381645}
+  _brickPrefab: {fileID: 3831968556465070073, guid: 12fbd4d905ea139449a3324a3f873699, type: 3}
+  _brickTransform: {fileID: 78381645}
+  _material: {fileID: 2100000, guid: 37fab0ca3c36f2a4a8abeedbe63bd82c, type: 2}
+  _currentState: 0
   brickType: 0
 --- !u!95 &823774520
 Animator:
@@ -771,6 +778,11 @@ Animator:
 --- !u!4 &823774523 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 138750640174117993, guid: 007ae2c07a2b87e43b7b4d446950ded1, type: 3}
+  m_PrefabInstance: {fileID: 30482275}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &823774525 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 461136851087979909, guid: 007ae2c07a2b87e43b7b4d446950ded1, type: 3}
   m_PrefabInstance: {fileID: 30482275}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &830365507
@@ -978,11 +990,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 461136851087979909, guid: 007ae2c07a2b87e43b7b4d446950ded1, type: 3}
       propertyPath: m_UseGravity
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 461136851087979909, guid: 007ae2c07a2b87e43b7b4d446950ded1, type: 3}
+      propertyPath: m_Constraints
+      value: 112
       objectReference: {fileID: 0}
     - target: {fileID: 461136851087979909, guid: 007ae2c07a2b87e43b7b4d446950ded1, type: 3}
       propertyPath: m_IsKinematic
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 767617807736106707, guid: 007ae2c07a2b87e43b7b4d446950ded1, type: 3}
       propertyPath: m_Name
@@ -1189,10 +1205,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3896ab0a765b0504ba01b83097ce8dd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMesh: {fileID: 361303289}
+  _rigidbody: {fileID: 1939808654}
+  _navMesh: {fileID: 1957868320}
   _animator: {fileID: 1939808649}
-  brickPrefab: {fileID: 3831968556465070073, guid: 6c20b90f120fadc458b9df47dd206640, type: 3}
-  brickTransform: {fileID: 280859541}
+  _brickPrefab: {fileID: 3831968556465070073, guid: 6c20b90f120fadc458b9df47dd206640, type: 3}
+  _brickTransform: {fileID: 280859541}
+  _material: {fileID: 2100000, guid: b76ef2e7f7bd1c346b0854fd6f6b5e63, type: 2}
+  _currentState: 0
   brickType: 2
 --- !u!95 &1939808649
 Animator:
@@ -1219,6 +1238,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 138750640174117993, guid: 007ae2c07a2b87e43b7b4d446950ded1, type: 3}
   m_PrefabInstance: {fileID: 1057326609}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &1939808654 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 461136851087979909, guid: 007ae2c07a2b87e43b7b4d446950ded1, type: 3}
+  m_PrefabInstance: {fileID: 1057326609}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1957868316
 GameObject:
   m_ObjectHideFlags: 0
@@ -1233,7 +1257,7 @@ GameObject:
   - component: {fileID: 1957868317}
   m_Layer: 0
   m_Name: AITarget (1)
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1246,7 +1270,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1957868316}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -1645,7 +1669,8 @@ MonoBehaviour:
   _rigidbody: {fileID: 1341056587}
   _joystick: {fileID: 2043468134}
   _animator: {fileID: 919132148940799262}
-  brickPrefab: {fileID: 3831968556465070073, guid: db01d52add81c464a94c67671bb6f11c, type: 3}
-  brickTransform: {fileID: 1371303569}
+  _brickPrefab: {fileID: 3831968556465070073, guid: db01d52add81c464a94c67671bb6f11c, type: 3}
+  _brickTransform: {fileID: 1371303569}
+  _material: {fileID: 2100000, guid: 12a8eb6b8ba9fdb4d9a87e467a1a2a2e, type: 2}
   _moveSpeed: 5
-  brickType: 0
+  brickType: 1

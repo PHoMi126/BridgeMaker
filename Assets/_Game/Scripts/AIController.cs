@@ -12,11 +12,13 @@ public class AIController : MonoBehaviour
         Idle, Running, Dance
     }
 
-    [SerializeField] Transform navMesh;
+    [SerializeField] private Rigidbody _rigidbody;
+    [SerializeField] private Transform _navMesh;
     [SerializeField] private Animator _animator;
-    [SerializeField] GameObject brickPrefab;
-    [SerializeField] Transform brickTransform;
-    [SerializeField] CurrentState _currentState;
+    [SerializeField] private GameObject _brickPrefab;
+    [SerializeField] private Transform _brickTransform;
+    [SerializeField] private Material _material;
+    [SerializeField] private CurrentState _currentState;
 
     private List<GameObject> listBrickHave = new List<GameObject>();
     public BrickController.BrickType brickType = BrickController.BrickType.RED;
@@ -25,7 +27,7 @@ public class AIController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.GetComponent<NavMeshAgent>().SetDestination(navMesh.position);
+        this.GetComponent<NavMeshAgent>().SetDestination(_navMesh.position);
         StartCoroutine(SwitchAnim());
     }
     void Update()
@@ -52,6 +54,7 @@ public class AIController : MonoBehaviour
             _animator.SetBool("isIdle", false);
             _animator.SetBool("isRunning", false);
             _animator.SetBool("isDance", true);
+            _rigidbody.velocity = Vector3.zero;
         }
     }
 
@@ -68,7 +71,7 @@ public class AIController : MonoBehaviour
         if (brick != null && brick.brickType == this.brickType)
         {
             brick.BrickEaten();
-            obj = Instantiate(brickPrefab, brickTransform);
+            obj = Instantiate(_brickPrefab, _brickTransform);
             obj.GetComponent<BrickController>().enabled = false;
 
             obj.transform.localPosition = new Vector3(0f, listBrickHave.Count * 0.15f, 0f);
@@ -76,6 +79,9 @@ public class AIController : MonoBehaviour
         }
         else if (other.gameObject.tag == "BridgeTile")
         {
+            //Change Brick Color
+            other.GetComponent<Renderer>().material = _material;
+
             other.gameObject.GetComponent<MeshRenderer>().enabled = true;
         }
         else if (other.gameObject.tag == "Target")
