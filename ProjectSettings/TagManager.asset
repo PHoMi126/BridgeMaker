@@ -12,6 +12,7 @@ TagManager:
   - AI
   - BridgeWall
   - Target
+  - BrickTrigger
   layers:
   - Default
   - TransparentFX

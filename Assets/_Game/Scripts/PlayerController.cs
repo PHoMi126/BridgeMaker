@@ -6,11 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    public enum AnimType
-    {
-        Idle, Running, Dance
-    }
-    
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private FloatingJoystick _joystick;
     [SerializeField] private Animator _animator;
@@ -20,8 +15,14 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float _moveSpeed;
 
+    public enum AnimType
+    {
+        Idle, Running, Dance
+    }
+
+    public WinLoose winLooseScript;
     private AnimType currentAnimName = AnimType.Idle;
-    private List<GameObject> listBrickHave = new List<GameObject>();
+    public List<GameObject> listBrickHave = new List<GameObject>();
     public BrickController.BrickType brickType = BrickController.BrickType.RED;
     GameObject obj;
 
@@ -79,25 +80,35 @@ public class PlayerController : MonoBehaviour
             other.GetComponent<Renderer>().material = _material;
 
             other.gameObject.GetComponent<MeshRenderer>().enabled = true;
-            listBrickHave.Remove(obj);
-            Destroy(obj);
 
             Debug.Log(listBrickHave.Count);
         }
         else if (other.gameObject.tag == "BridgeWall")
         {
-            if (listBrickHave == null)
+            if (listBrickHave.Count == 0)
             {
                 other.isTrigger = false;
             }
             else
             {
-                Destroy(other.gameObject);
+                Destroy(obj);
+                listBrickHave.RemoveAt(listBrickHave.Count - 1);
+                Destroy(other);
             }
         }
         else if (other.gameObject.tag == "DeathZone")
         {
             SceneManager.LoadScene("SampleScene");
+        }
+        else if (other.gameObject.tag == "Finish")
+        {
+            winLooseScript.Win();
+        }
+        else if (other.gameObject.tag == "Target")
+        {
+            Time.timeScale = 0;
+            ChangeAnimation(AnimType.Dance);
+            //UnityEditor.EditorApplication.isPlaying = false;
         }
     }
 

@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.SceneManagement;
+using UnityEngine.AI; //important
 
-public class AIController : MonoBehaviour
+//if you use this code you are contractually obligated to like the YT video
+public class RandomMovement : MonoBehaviour //don't forget to change the script name if you haven't
 {
+    public NavMeshAgent agent;
+    public float range; //radius of sphere
+
+    public Transform centrePoint; //centre of the area the agent wants to move around in
+    //instead of centrePoint you can set it as the transform of the agent if you don't care about a specific area
+
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private Transform _navMesh;
     [SerializeField] private Animator _animator;
@@ -15,30 +20,41 @@ public class AIController : MonoBehaviour
     [SerializeField] private Material _material;
     [SerializeField] private CurrentState _currentState;
 
-    public enum CurrentState
-    {
-        Idle, Running, Dance
-    }
-
     public WinLoose winLooseScript;
     private List<GameObject> listBrickHave = new List<GameObject>();
     public BrickController.BrickType brickType = BrickController.BrickType.RED;
     GameObject obj;
 
-    // Start is called before the first frame update
+    public enum CurrentState
+    {
+        Idle, Running, Dance
+    }
+
     void Start()
     {
-        this.GetComponent<NavMeshAgent>().SetDestination(_navMesh.position);
+        agent = GetComponent<NavMeshAgent>();
         StartCoroutine(SwitchAnim());
     }
+
+    
     void Update()
     {
+        if(agent.remainingDistance <= agent.stoppingDistance) //done with path
+        {
+            Vector3 point;
+            if (RandomPoint(centrePoint.position, range, out point)) //pass in our centre point and radius of area
+            {
+                Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f); //so you can see with gizmos
+                agent.SetDestination(point);
+            }
+        }
+
         AnimCheck();
     }
 
     public void AnimCheck()
     {
-        if(_currentState == CurrentState.Idle)
+        if (_currentState == CurrentState.Idle)
         {
             _animator.SetBool("isIdle", true);
             _animator.SetBool("isRunning", false);
@@ -63,6 +79,23 @@ public class AIController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         _currentState = CurrentState.Running;
+    }
+
+    bool RandomPoint(Vector3 center, float range, out Vector3 result)
+    {
+
+        Vector3 randomPoint = center + Random.insideUnitSphere * range; //random point in a sphere 
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas)) //documentation: https://docs.unity3d.com/ScriptReference/AI.NavMesh.SamplePosition.html
+        { 
+            //the 1.0f is the max distance from the random point to a point on the navmesh, might want to increase if range is big
+            //or add a for loop like in the documentation
+            result = hit.position;
+            return true;
+        }
+
+        result = Vector3.zero;
+        return true;
     }
 
     private void OnTriggerEnter(Collider other)

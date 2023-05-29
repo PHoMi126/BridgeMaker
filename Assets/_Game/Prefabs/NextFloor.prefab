@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8686835403407205163}
   - component: {fileID: 8686835403407205162}
   m_Layer: 6
-  m_Name: FloorNoBridge
+  m_Name: NextFloor
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
