@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject _brickPrefab;
     [SerializeField] private Transform _brickTransform;
     [SerializeField] private Material _material;
+    [SerializeField] private Camera _winCamera;
+    [SerializeField] private Camera _mainCamera;
 
     [SerializeField] private float _moveSpeed;
 
@@ -61,6 +63,7 @@ public class PlayerController : MonoBehaviour
         } 
     }
 
+    [System.Obsolete]
     private void OnTriggerEnter(Collider other)
     {
         BrickController brick = other.GetComponent<BrickController>();
@@ -81,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
             other.gameObject.GetComponent<MeshRenderer>().enabled = true;
 
-            Debug.Log(listBrickHave.Count);
+            //Debug.Log(listBrickHave.Count);
         }
         else if (other.gameObject.tag == "BridgeWall")
         {
@@ -91,8 +94,9 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                obj = listBrickHave[listBrickHave.Count - 1];
                 Destroy(obj);
-                listBrickHave.RemoveAt(listBrickHave.Count - 1);
+                listBrickHave.Remove(obj);
                 Destroy(other);
             }
         }
@@ -107,7 +111,9 @@ public class PlayerController : MonoBehaviour
         else if (other.gameObject.tag == "Target")
         {
             Time.timeScale = 0;
-            ChangeAnimation(AnimType.Dance);
+            ChangeAnimation(AnimType.Dance); 
+            _winCamera.gameObject.active = true;
+            _mainCamera.gameObject.active = false;
             //UnityEditor.EditorApplication.isPlaying = false;
         }
     }

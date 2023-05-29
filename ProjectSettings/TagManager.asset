@@ -13,6 +13,7 @@ TagManager:
   - BridgeWall
   - Target
   - BrickTrigger
+  - Brick1stSpawn
   layers:
   - Default
   - TransparentFX

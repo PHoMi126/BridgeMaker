@@ -93,8 +93,9 @@ public class AIController : MonoBehaviour
             }
             else
             {
+                obj = listBrickHave[listBrickHave.Count - 1];
                 Destroy(obj);
-                listBrickHave.RemoveAt(listBrickHave.Count - 1);
+                listBrickHave.Remove(obj);
                 Destroy(other);
             }
         }

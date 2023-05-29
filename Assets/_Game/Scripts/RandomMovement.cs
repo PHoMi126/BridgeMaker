@@ -126,8 +126,9 @@ public class RandomMovement : MonoBehaviour //don't forget to change the script 
             }
             else
             {
+                obj = listBrickHave[listBrickHave.Count - 1];
                 Destroy(obj);
-                listBrickHave.RemoveAt(listBrickHave.Count - 1);
+                listBrickHave.Remove(obj);
                 Destroy(other);
             }
         }
