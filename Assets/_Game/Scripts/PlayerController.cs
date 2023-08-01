@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,6 +15,10 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float _moveSpeed;
 
+    private float horizontal;
+    private float vertical;
+    private Vector3 direction;
+
     public enum AnimType
     {
         Idle, Running, Dance
@@ -28,27 +30,47 @@ public class PlayerController : MonoBehaviour
     public BrickController.BrickType brickType = BrickController.BrickType.RED;
     GameObject obj;
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if(Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
         {
-            ChangeAnimation(AnimType.Running);
-            _rigidbody.velocity = new Vector3(_joystick.Horizontal * _moveSpeed, _rigidbody.velocity.y, _joystick.Vertical * _moveSpeed);
+            Moving();
         }
-        else if(Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0))
         {
-            ChangeAnimation(AnimType.Idle);
-            _rigidbody.velocity = Vector3.zero;
+            Stopping();
+        }
+    }
 
+    public void Moving()
+    {
+        if (_joystick != null)
+        {
+            horizontal = _joystick.Horizontal;
+            vertical = _joystick.Vertical;
+            if (Mathf.Abs(horizontal) > 0.1f || Mathf.Abs(vertical) > 0.1f)
+            {
+                ChangeAnimation(AnimType.Running);
+                direction = new Vector3(horizontal, 0f, vertical);
+                Quaternion toRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, 720f * Time.deltaTime);
+                transform.position += _moveSpeed * Time.deltaTime * direction;
+            }
         }
+    }
+
+    public void Stopping()
+    {
+        ChangeAnimation(AnimType.Idle);
+        _rigidbody.velocity = Vector3.zero;
     }
 
     public void ChangeAnimation(AnimType _type)
     {
-        if(currentAnimName != _type)
+        if (currentAnimName != _type)
         {
             currentAnimName = _type;
-            switch(_type)
+            switch (_type)
             {
                 case AnimType.Idle:
                     _animator.SetTrigger("isIdle");
@@ -60,15 +82,14 @@ public class PlayerController : MonoBehaviour
                     _animator.SetTrigger("isDance");
                     break;
             }
-        } 
+        }
     }
 
-    [System.Obsolete]
     private void OnTriggerEnter(Collider other)
     {
         BrickController brick = other.GetComponent<BrickController>();
 
-        if(brick != null && brick.brickType == this.brickType)
+        if (brick != null && brick.brickType == this.brickType)
         {
             brick.BrickEaten();
             obj = Instantiate(_brickPrefab, _brickTransform);
@@ -77,7 +98,7 @@ public class PlayerController : MonoBehaviour
             obj.transform.localPosition = new Vector3(0f, listBrickHave.Count * 0.15f, 0f);
             listBrickHave.Add(obj);
         }
-        else if(other.gameObject.tag == "BridgeTile")
+        else if (other.gameObject.CompareTag("BridgeTile"))
         {
             //Change Brick Color
             other.GetComponent<Renderer>().material = _material;
@@ -86,7 +107,7 @@ public class PlayerController : MonoBehaviour
 
             //Debug.Log(listBrickHave.Count);
         }
-        else if (other.gameObject.tag == "BridgeWall")
+        else if (other.gameObject.CompareTag("BridgeWall"))
         {
             if (listBrickHave.Count == 0)
             {
@@ -100,27 +121,27 @@ public class PlayerController : MonoBehaviour
                 Destroy(other);
             }
         }
-        else if (other.gameObject.tag == "DeathZone")
+        else if (other.gameObject.CompareTag("DeathZone"))
         {
             SceneManager.LoadScene("SampleScene");
         }
-        else if (other.gameObject.tag == "Finish")
+        else if (other.gameObject.CompareTag("Finish"))
         {
             winLooseScript.Win();
         }
-        else if (other.gameObject.tag == "Target")
+        else if (other.gameObject.CompareTag("Target"))
         {
             Time.timeScale = 0;
-            ChangeAnimation(AnimType.Dance); 
-            _winCamera.gameObject.active = true;
-            _mainCamera.gameObject.active = false;
+            ChangeAnimation(AnimType.Dance);
+            _winCamera.gameObject.SetActive(true);
+            _mainCamera.gameObject.SetActive(false);
             //UnityEditor.EditorApplication.isPlaying = false;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "BridgeWall")
+        if (other.gameObject.CompareTag("BridgeWall"))
         {
             other.isTrigger = true;
         }

@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.SceneManagement;
 
 public class AIController : MonoBehaviour
 {
@@ -38,7 +36,7 @@ public class AIController : MonoBehaviour
 
     public void AnimCheck()
     {
-        if(_currentState == CurrentState.Idle)
+        if (_currentState == CurrentState.Idle)
         {
             _animator.SetBool("isIdle", true);
             _animator.SetBool("isRunning", false);
@@ -78,14 +76,14 @@ public class AIController : MonoBehaviour
             obj.transform.localPosition = new Vector3(0f, listBrickHave.Count * 0.15f, 0f);
             listBrickHave.Add(obj);
         }
-        else if (other.gameObject.tag == "BridgeTile")
+        else if (other.gameObject.CompareTag("BridgeTile"))
         {
             //Change Brick Color
             other.GetComponent<Renderer>().material = _material;
 
             other.gameObject.GetComponent<MeshRenderer>().enabled = true;
         }
-        else if (other.gameObject.tag == "BridgeWall")
+        else if (other.gameObject.CompareTag("BridgeWall"))
         {
             if (listBrickHave.Count == 0)
             {
@@ -99,19 +97,19 @@ public class AIController : MonoBehaviour
                 Destroy(other);
             }
         }
-        else if (other.gameObject.tag == "Target")
+        else if (other.gameObject.CompareTag("Target"))
         {
             Time.timeScale = 0;
             _currentState = CurrentState.Dance;
         }
-        else if (other.gameObject.tag == "Finish")
+        else if (other.gameObject.CompareTag("Finish"))
         {
             winLooseScript.Loose();
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "BridgeWall")
+        if (other.gameObject.CompareTag("BridgeWall"))
         {
             other.isTrigger = true;
         }

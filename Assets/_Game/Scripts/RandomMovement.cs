@@ -36,10 +36,10 @@ public class RandomMovement : MonoBehaviour //don't forget to change the script 
         StartCoroutine(SwitchAnim());
     }
 
-    
+
     void Update()
     {
-        if(agent.remainingDistance <= agent.stoppingDistance) //done with path
+        if (agent.remainingDistance <= agent.stoppingDistance) //done with path
         {
             Vector3 point;
             if (RandomPoint(centrePoint.position, range, out point)) //pass in our centre point and radius of area
@@ -87,7 +87,7 @@ public class RandomMovement : MonoBehaviour //don't forget to change the script 
         Vector3 randomPoint = center + Random.insideUnitSphere * range; //random point in a sphere 
         NavMeshHit hit;
         if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas)) //documentation: https://docs.unity3d.com/ScriptReference/AI.NavMesh.SamplePosition.html
-        { 
+        {
             //the 1.0f is the max distance from the random point to a point on the navmesh, might want to increase if range is big
             //or add a for loop like in the documentation
             result = hit.position;
@@ -111,14 +111,14 @@ public class RandomMovement : MonoBehaviour //don't forget to change the script 
             obj.transform.localPosition = new Vector3(0f, listBrickHave.Count * 0.15f, 0f);
             listBrickHave.Add(obj);
         }
-        else if (other.gameObject.tag == "BridgeTile")
+        else if (other.gameObject.CompareTag("BridgeTile"))
         {
             //Change Brick Color
             other.GetComponent<Renderer>().material = _material;
 
             other.gameObject.GetComponent<MeshRenderer>().enabled = true;
         }
-        else if (other.gameObject.tag == "BridgeWall")
+        else if (other.gameObject.CompareTag("BridgeWall"))
         {
             if (listBrickHave.Count == 0)
             {
@@ -132,19 +132,19 @@ public class RandomMovement : MonoBehaviour //don't forget to change the script 
                 Destroy(other);
             }
         }
-        else if (other.gameObject.tag == "Target")
+        else if (other.gameObject.CompareTag("Target"))
         {
             Time.timeScale = 0;
             _currentState = CurrentState.Dance;
         }
-        else if (other.gameObject.tag == "Finish")
+        else if (other.gameObject.CompareTag("Finish"))
         {
             winLooseScript.Loose();
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "BridgeWall")
+        if (other.gameObject.CompareTag("BridgeWall"))
         {
             other.isTrigger = true;
         }

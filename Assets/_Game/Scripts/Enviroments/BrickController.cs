@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BrickController : MonoBehaviour
@@ -31,8 +30,8 @@ public class BrickController : MonoBehaviour
 
     public void BrickEaten()
     {
-        brickMeshRenderer.gameObject.SetActive (false);
-        this.GetComponent<BoxCollider>().enabled= false;
+        brickMeshRenderer.gameObject.SetActive(false);
+        this.GetComponent<BoxCollider>().enabled = false;
         StartCoroutine(ResetBrick(5f));
     }
 }
