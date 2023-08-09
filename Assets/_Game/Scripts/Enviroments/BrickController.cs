@@ -5,13 +5,13 @@ public class BrickController : MonoBehaviour
 {
     public enum BrickType
     {
-        RED, BLUE, GREEN
+        Red, Blue, Green
     }
 
     [SerializeField] MeshRenderer brickMeshRenderer;
     [SerializeField] BrickColorScriptable colorScriptable;
 
-    public BrickType brickType = BrickType.RED;
+    public BrickType brickType = BrickType.Red;
 
     // Start is called before the first frame update
     void Start()

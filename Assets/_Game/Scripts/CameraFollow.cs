@@ -9,7 +9,7 @@ public class CameraFollow : MonoBehaviour
     {
         if (player != null)
         {
-            transform.position = player.transform.position + new Vector3(0f, 10f, -10f);
+            transform.position = player.transform.position + new Vector3(0f, 12f, -10f);
         }
     }
 }

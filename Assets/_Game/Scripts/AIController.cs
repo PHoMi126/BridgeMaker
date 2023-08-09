@@ -20,7 +20,7 @@ public class AIController : MonoBehaviour
 
     public WinLoose winLooseScript;
     private List<GameObject> listBrickHave = new List<GameObject>();
-    public BrickController.BrickType brickType = BrickController.BrickType.RED;
+    public BrickController.BrickType brickType = BrickController.BrickType.Red;
     GameObject obj;
 
     // Start is called before the first frame update

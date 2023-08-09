@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WinLoose : MonoBehaviour
@@ -16,7 +14,7 @@ public class WinLoose : MonoBehaviour
     }
     public void Loose()
     {
-        if(!gameEnded)
+        if (!gameEnded)
         {
             Debug.Log("You Loose!");
             gameEnded = true;

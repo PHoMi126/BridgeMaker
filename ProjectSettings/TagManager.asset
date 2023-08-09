@@ -14,6 +14,7 @@ TagManager:
   - Target
   - BrickTrigger
   - Brick1stSpawn
+  - Character
   layers:
   - Default
   - TransparentFX
