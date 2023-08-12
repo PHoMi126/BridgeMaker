@@ -1763,6 +1763,7 @@ MonoBehaviour:
   _currentState: 0
   winLooseScript: {fileID: 60280481}
   brickType: 2
+  listBrickHave: []
 --- !u!95 &1939808649
 Animator:
   serializedVersion: 5
@@ -1928,7 +1929,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 138750640174117993, guid: a1de93fa517dd7449bc0f231b7060c53, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.198
       objectReference: {fileID: 0}
     - target: {fileID: 138750640174117993, guid: a1de93fa517dd7449bc0f231b7060c53, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2127,6 +2128,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2770027714523350196, guid: 71a5d87a193eb264db9c07a51cc7bfa6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2770027715280912474, guid: 71a5d87a193eb264db9c07a51cc7bfa6, type: 3}
       propertyPath: m_Name
       value: Floor

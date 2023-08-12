@@ -13,6 +13,13 @@ public class CharacterController : MonoBehaviour
     [SerializeField] internal List<GameObject> listBrickHave = new();
 
     GameObject obj;
+    //private Vector3 targetPos;
+    private bool isTriggered = false;
+
+    /* private void FixedUpdate()
+    {
+        DetectHit(transform.position, 0.5f, transform.forward);
+    } */
 
     public enum AnimType
     {
@@ -58,7 +65,7 @@ public class CharacterController : MonoBehaviour
             if (listBrickHave.Count > 0)
             {
                 //Change Brick Color
-                other.GetComponent<Renderer>().sharedMaterial = _material;
+                other.GetComponent<Renderer>().material = _material;
                 other.gameObject.GetComponent<MeshRenderer>().enabled = true;
             }
         }
@@ -66,15 +73,18 @@ public class CharacterController : MonoBehaviour
         {
             if (listBrickHave.Count == 0)
             {
+                isTriggered = false;
                 other.isTrigger = false;
             }
-            else
+            else if (isTriggered == false)
             {
+                isTriggered = true;
                 obj = listBrickHave[listBrickHave.Count - 1];
                 Destroy(obj);
                 listBrickHave.Remove(obj);
-                Destroy(other);
-                //other.isTrigger = true;
+                //Destroy(other);
+                other.isTrigger = true;
+                Debug.Log(other.gameObject);
             }
         }
         else if (other.gameObject.CompareTag("Target"))
@@ -88,7 +98,38 @@ public class CharacterController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("BridgeWall"))
         {
+            isTriggered = false;
             other.isTrigger = true;
         }
     }
+
+    /* RaycastHit DetectHit(Vector3 startPos, float distance, Vector3 direction)
+    {
+        Ray ray = new Ray(startPos, direction);
+        RaycastHit hit;
+        Vector3 endPos = startPos + (distance * direction);
+        while (Physics.Raycast(ray, out hit, distance))
+        {
+            if (hit.collider.CompareTag("BridgeWall"))
+            {
+                if (listBrickHave.Count == 0)
+                {
+                    hit.collider.isTrigger = false;
+                }
+                else
+                {
+                    transform.localPosition = new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z);
+                    //obj = listBrickHave[listBrickHave.Count - 1];
+                    //Destroy(obj);
+                    //listBrickHave.Remove(obj);
+                    //Destroy(other);
+                    hit.collider.isTrigger = true;
+                }
+            }
+            endPos = hit.point;
+            break;
+        }
+        Debug.DrawLine(startPos, endPos, Color.black);
+        return hit;
+    } */
 }

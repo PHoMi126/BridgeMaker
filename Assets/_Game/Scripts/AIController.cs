@@ -19,8 +19,8 @@ public class AIController : MonoBehaviour
     }
 
     public WinLoose winLooseScript;
-    private List<GameObject> listBrickHave = new List<GameObject>();
     public BrickController.BrickType brickType = BrickController.BrickType.Red;
+    public List<GameObject> listBrickHave = new();
     GameObject obj;
 
     // Start is called before the first frame update
@@ -78,10 +78,13 @@ public class AIController : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("BridgeTile"))
         {
-            //Change Brick Color
-            other.GetComponent<Renderer>().material = _material;
-
-            other.gameObject.GetComponent<MeshRenderer>().enabled = true;
+            if (listBrickHave.Count > 0)
+            {
+                //Change Brick Color
+                other.GetComponent<Renderer>().sharedMaterial = _material;
+                other.gameObject.GetComponent<MeshRenderer>().enabled = true;
+                other.isTrigger = true;
+            }
         }
         else if (other.gameObject.CompareTag("BridgeWall"))
         {
